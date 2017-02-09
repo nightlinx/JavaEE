@@ -30,7 +30,17 @@ public class WitajSwiecieServlet extends HttpServlet {
 		else{
 			counter++;
 		}
-		session.setAttribute("counter", counter); //to jest po to, by pamietac ilosc wejsc przy kolejnych wejsciach do metody
+		session.setAttribute("counter", counter); //to jest po to, by pamietac ilosc wejsc przy kolejnych wywoływaniach metody
 		pw.println("Byles na stronie tyle razy: " + counter);
+		
+		//Konteksty
+		/*
+		ServletContext context = this.getServletContext();
+		String name = req.getParameter("name");
+		
+		synchronized (context) {
+			context.setAttribute("name", name); //niestety, kazdy ma dostep do tego atrybutu i moze go zmieniac
+		}
+		*/
 	}
 }
