@@ -17,6 +17,16 @@
   	<servlet-name>Hello world</servlet-name>
   	<url-pattern>/hello</url-pattern>
   </servlet-mapping>
+  
+   <servlet>
+  	<servlet-name>Users list</servlet-name>
+  	<servlet-class>javaee.servlets.ListaUzytkownikowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Users list</servlet-name>
+  	<url-pattern>/users</url-pattern>
+  </servlet-mapping>
+  
   <listener>
   	<listener-class>javaee.listener.ContextListener</listener-class>
   </listener>
@@ -52,7 +62,7 @@
   		</user-data-constraint>
   	</security-constraint>
   	
-  	<!-- konfiguracja serwletu, by filtr mógł przechwycic żądanie przeznaczone do serwletu WitajSwiecie -->  	
+  	<!-- konfiguracja serwletu, by filtr mógł przechwycic żądanie przeznaczone do serwletu WitajSwiecie   	
   	<filter>
   		<filter-name>FiltrRegulowy</filter-name>
   		<filter-class>javaee.filters.FiltrRegulowy</filter-class>
@@ -61,5 +71,5 @@
   		<filter-name>FiltrRegulowy</filter-name>
   		<url-pattern>/hello</url-pattern>
   	</filter-mapping>
-
+-->
 </web-app>
