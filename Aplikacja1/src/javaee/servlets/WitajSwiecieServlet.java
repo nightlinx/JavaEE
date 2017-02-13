@@ -23,10 +23,11 @@ public class WitajSwiecieServlet extends HttpServlet {
 		System.out.println("bla");
 		res.setContentType("text/plain; charset=utf-8");
 		res.getWriter().println("Witaj świecie Servlet");
-		RequestDispatcher rd = req.getRequestDispatcher("/users");
-		//rd.forward(req, res);	//przekazanie - drugi servlet calkowiie zajmie sie żądaniem. Ten utraci taką możliwosć
-		 rd.include(req, res); //ten servlet obudowuje to co wygeneruje drugi servlet
-		System.out.println("Zegnaj świecie Servlet");
+		RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+		// rd.forward(req, res);	//przekazanie - drugi servlet calkowiie zajmie sie żądaniem. Ten utraci taką możliwosć
+		// rd.include(req, res); //ten servlet obudowuje to co wygeneruje drugi servlet
+		res.sendRedirect("/Aplikacja1/index.jsp");  //przekierowanie
+		
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{		
 	}
