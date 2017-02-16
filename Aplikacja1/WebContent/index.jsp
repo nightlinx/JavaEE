@@ -8,5 +8,6 @@
 </head>
 <body>
 	<p> Witaj świecie </p>
+	${user1.name} ${user1.surname} ${user1.id} 
 </body>
 </html>
