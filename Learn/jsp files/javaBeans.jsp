@@ -16,7 +16,5 @@
 	 	<jsp:setProperty name="aktywny" property="userName" value="brak" />
 	 </jsp:useBean>
 	 <jsp:getProperty property="userName" name="aktywny" />
-	 
-
 </body>
 </html>

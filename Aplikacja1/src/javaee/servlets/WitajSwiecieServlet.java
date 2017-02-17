@@ -23,7 +23,7 @@ public class WitajSwiecieServlet extends HttpServlet {
 		System.out.println("witajswiecieservlet");
 		User u = new User();
 		u.setId(1);
-		u.setName("Ania");
+		u.setUserName("Ania");
 		u.setSurname("Lis");
 		req.setAttribute("user1", u);
 		//res.setContentType("text/plain; charset=utf-8");
