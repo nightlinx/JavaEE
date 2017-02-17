@@ -1,0 +1,47 @@
+${header. } ${headerValues. } ${cookies. } ${initParam. } 
+
+requestScope - zasiêg ¿¹dania
+sessionScope - zasiêg sesji
+applicationScope - zasiêg kontekstu
+pageScope - zasiêg pojedynczej strony, nie bd widoczna w innych ¿¹daniach (najwê¿szy zasiêg)
+pageContext - pojedynczy obiekt (kontekst strony) Dzieki niemu mamy dostêp do roznych obiektów np request,response,servletContext, page itp
+Nie jest to dostêp do atrybutu, tylko do OBIEKTU
+
+Wszystkie dotycz¹ ¿¹dania:
+${pageContext.request} - obiekt ¿¹dania
+${requestScope} - mapa atrybutów o zasiêgu ¿¹dania
+${param} - mapa parametrów ¿¹dania
+
+Mo¿na napisaæ: ${name} jeœli nie ma innego atrybutu o takiej nazwie (wypisze "jan").
+JSP próbuje znaleŸæ atr. o tej nazwie kolejno w zasiêgach page, request, session, aplication
+
+${user1.name eq 'Ania'} => true
+
+AKCJE - zanzaczniki, ktore pozwalaj¹ na wykonywanie pewnych operacji
+-include
+  <jsp:include page="/contents.jsp"> - do³¹czenie zewn. pliku. Dzia³a tak samo jak metoda include z dyspozytora ¿¹dañ
+  (reqDispatcher.include(req, res)). Analogicznie forward - ju¿ potem nie wracamy do naszego pliku
+     <jsp:param name="doWyswietlenia" value="tekst" />- przekazujemy tak parametry ¿¹dania do pliku contenst.jsp
+-useBean
+
+DYREKTYWY
+<%@ taglib prefix="c" uri="" %>
+taglib - zimportowanie do danego widoku wybranej bibl znaczników
+  -prefix
+  -adres uri(/katalog znaczników) - wskazuje na bibliotekê znaczników - pozwalaj¹ na u¿ywanie
+  innych znaczników w pliku jsp
+
+<%@ include file="/contents.jsp" %>
+include - pozwala na do³¹cznie pliku do strony. STATYCZNE do³¹czanie treœci na etapie tworzenia servletu
+jsp.include -> przy kazdym ¿¹daniu przekazuje obs³ugê do pliku treœæ jsp - ELASTYCZNE
+@ include -> te zmiany nie s¹ uwzglêdnione (trzeba znowu skompilowac program) - SZYBSZE
+
+WYRA¯ENIA SKRYPTOWE - fuj, niedobre. Jsp jest do wyœwietlania informacji na stronie, a nie do logiki biznesowej
+<%
+	jakiœ kod w javie
+	out.println ("wyrazenie skryptletowe"); //wydrukuje sie to na stronie
+%>
+<%= ((User)request.getAttribute("user1")).getSurname() %> == {$user1.surname}
+<%! int a = 0; out.println(++a); %> - deklaracja pola w servlecie
+
+
