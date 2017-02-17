@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +27,13 @@ public class WitajSwiecieServlet extends HttpServlet {
 		u.setUserName("Ania");
 		u.setSurname("Lis");
 		req.setAttribute("user1", u);
+		
+		User u2 = new User();
+		u2.setId(1);
+		u2.setUserName("Janek");
+		u2.setSurname("Nowak");
+		req.setAttribute("allUsers", Arrays.asList(u, u2));
+		
 		//res.setContentType("text/plain; charset=utf-8");
 		RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
 		rd.forward(req, res);
