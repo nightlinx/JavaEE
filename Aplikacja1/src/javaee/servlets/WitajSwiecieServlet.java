@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +34,8 @@ public class WitajSwiecieServlet extends HttpServlet {
 		u2.setUserName("Janek");
 		u2.setSurname("Nowak");
 		req.setAttribute("allUsers", Arrays.asList(u, u2));
+		req.setAttribute("kwota", 50.5);
+		req.setAttribute("data", new Date());
 		
 		//res.setContentType("text/plain; charset=utf-8");
 		RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");

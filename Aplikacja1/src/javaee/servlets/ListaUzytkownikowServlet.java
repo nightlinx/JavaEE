@@ -13,7 +13,7 @@ public class ListaUzytkownikowServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{		
 		res.setContentType("text/plain; charset=utf-8");
-		res.getWriter().println("lista użytkowników");
+		res.getWriter().println("lista użytkowników - servlet");
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{		

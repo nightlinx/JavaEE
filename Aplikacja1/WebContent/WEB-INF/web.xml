@@ -26,17 +26,17 @@
   	<servlet-name>Users list</servlet-name>
   	<url-pattern>/users</url-pattern>
   </servlet-mapping>
-  
+  <!--  
   <listener>
   	<listener-class>javaee.listener.ContextListener</listener-class>
   </listener>
-  <login-config>
-  <!--
+ 
  	BASIC - dane wysyłane w niezabezpieczony sposob
  	DIGEST
  	CLIENT-CERT - pozwala na uwierzytelnianie przy użyciu certyfikatu
   	FORM -  logowanie w ramach strony / jednej z podstron aplikacji
   -->
+     <login-config>
   	<auth-method>BASIC</auth-method>
  	</login-config>  	
   	<security-role>

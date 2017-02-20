@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,39 +12,23 @@
 </head>
 <body>
 	<p> Witaj świecie </p>
-	<c:out value="${user1.userName}" default="brak imienia" escapeXml="true">
-	</c:out>
-	<c:if test="${user1.userName eq 'Ania'}">
-		<p> Witaj, Aniu </p>
-	</c:if>
-	<c:set var="imieUzytkownika" scope="request" value="${user1.userName}" />
-	${imieUzytkownika}
+	<c:url value="/users">
+		<c:param name="id" value="123"></c:param>
+	</c:url>
+	<c:import url="users" var="strona" scope="request"></c:import>
+	${strona}
 	
-	<c:set target="${user1}" property="userName" value="Ania" />
-	${user1.userName}
+	<p> Liczba wszystkich uzytkownikow </p>
+	${fn:length(allUsers)}
 	
-	<c:catch var="wyjatek">
-		<c:set target="${user1}" property="123" value="pesel" />
-	</c:catch>
-	${wyjatek}
+	<p> Kwota </p>	
+	<fmt:formatNumber value="${kwota}" type="currency" minFractionDigits="2" maxFractionDigits="5" currencyCode="PLN" />
 	
-	<c:choose>
-		<c:when test="${user1.userName eq 'Ania'}">
-			<p>Uzytkownik ma na imie Ania</p>
-		</c:when>
+	<p> Data i godzina </p>	
+	<fmt:formatDate value="${data}" type="both" dateStyle="long"/>
+	
+	<p> godzina </p>
+	<fmt:formatDate value="${data}" type="time"/>
 		
-		<c:when test="${user1.userName eq 'Jan'}">
-			<p>Uzytkownik ma na imie Jan</p>
-		</c:when>	
-
-		<c:otherwise>
-			<p>Uzytkownik ma inaczej na imie</p>
-		</c:otherwise>
-	</c:choose>
-	
-	<c:forEach items="${allUsers}" var="u">
-		${u.userName} ${u.surname} <br />
-	</c:forEach>
-	
 </body>
 </html>
