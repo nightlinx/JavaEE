@@ -8,41 +8,51 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Date;
+import java.sql.*;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpMethodConstraint;
+import javax.servlet.annotation.ServletSecurity;
+import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javaee.other.User;
 
+@WebServlet(urlPatterns = { "/hello" }, asyncSupported = true)
+// wytworzenie w ramach metody obsługi (doGet) nowego wątku i wykonanie pewnej
+// długotrwałej czynności np połącznie z bazą danych albo skorzystanie z obsługi sieciowej w nowym wątku
+// @ServletSecurity(httpMethodConstraints={ @HttpMethodConstraint(value="GET", rolesAllowed = {"admin", "moderator"}, transportGuarantee = TransportGuarantee.NONE)})
+
 public class WitajSwiecieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{	
-		System.out.println("witajswiecieservlet");
-		User u = new User();
-		u.setId(1);
-		u.setUserName("Ania");
-		u.setSurname("Lis");
-		req.setAttribute("user1", u);
-		
-		User u2 = new User();
-		u2.setId(1);
-		u2.setUserName("Janek");
-		u2.setSurname("Nowak");
-		req.setAttribute("allUsers", Arrays.asList(u, u2));
-		req.setAttribute("kwota", 50.5);
-		req.setAttribute("data", new Date());
-		
-		//res.setContentType("text/plain; charset=utf-8");
-		RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
-		rd.forward(req, res);
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		final AsyncContext context = req.startAsync(req, res);
+
+		new Thread(new Runnable() { // to sie bedzie wykonywac 3s, ale metoda
+									// doGet juz skonczy swoje dzialanie
+
+			@Override
+			public void run() {
+				context.getResponse().setContentType("text/plain; charset=utf-8");
+				try {
+					Thread.sleep(30);
+					context.getResponse().getWriter().println("Hello you!");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		System.out.println("doget");
 	}
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{		
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 	}
-	
+
 }
