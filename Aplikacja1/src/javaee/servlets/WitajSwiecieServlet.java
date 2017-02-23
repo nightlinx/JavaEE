@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javaee.other.DatabaseConnector;
 import javaee.other.User;
 
 @WebServlet(urlPatterns = { "/hello" }, asyncSupported = true)
@@ -33,23 +34,8 @@ public class WitajSwiecieServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		final AsyncContext context = req.startAsync(req, res);
-
-		new Thread(new Runnable() { // to sie bedzie wykonywac 3s, ale metoda
-									// doGet juz skonczy swoje dzialanie
-
-			@Override
-			public void run() {
-				context.getResponse().setContentType("text/plain; charset=utf-8");
-				try {
-					Thread.sleep(30);
-					context.getResponse().getWriter().println("Hello you!");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		System.out.println("doget");
+		DatabaseConnector dc = new DatabaseConnector();
+		dc.connect();
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
