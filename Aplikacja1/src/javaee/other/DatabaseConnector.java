@@ -15,13 +15,14 @@ import java.util.Scanner;
 
 public class DatabaseConnector {
 
-	public void connect() {
+	public String connect(String path) {
 		
 		//wyczytanie z pliku + zapisanie konfiguracji
 		Properties prop = new Properties();
 		Scanner in = null;
 		try{
-			in = new Scanner(new File("C:\\Users\\Anna\\Desktop\\configuration.txt"));  
+			
+			in = new Scanner(new File(path));  
 	      
 			prop.setProperty("database", in.nextLine());
 			prop.setProperty("dbuser", in.nextLine());
@@ -103,5 +104,7 @@ public class DatabaseConnector {
 		    System.out.println("Cannot connect the database!");
 		    throw new IllegalStateException("Cannot connect the database!", e);
 		}
-	}
+
+	return url+"?user="+username+"&password="+password;
+	}	
 }

@@ -12,6 +12,7 @@ import java.sql.*;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpMethodConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -34,8 +35,28 @@ public class WitajSwiecieServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		DatabaseConnector dc = new DatabaseConnector();
-		dc.connect();
+		ServletContext context = getServletContext();		
+		DatabaseConnector dc = new DatabaseConnector();		
+		String path = dc.connect(context.getRealPath("/WEB-INF/configuration.txt"));
+		res.setContentType("text/plain; charset=utf-8");
+		
+		try{
+			Driver sterownik = new com.mysql.jdbc.Driver();
+			DriverManager.registerDriver(sterownik);
+		
+			Connection connection = sterownik.connect(path, null);
+			Statement stmt = connection.createStatement(); //tworzymy zapytanie
+			if(stmt.execute("SELECT * from animals")){ // ZAPYTANIE POBIERAJACE - pobierz wszystko z tabeli uzytkownik
+				ResultSet zbior = stmt.getResultSet(); //ZAPYTANIE MODYFIKUJACE - zwracaja liczbe wynikow
+				while(zbior.next()){
+					res.getWriter().println(zbior.getString("idAnimals")+" "+zbior.getString("Name")+" " + zbior.getString("Age") + "\n");
+				}
+		}
+			connection.close();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
