@@ -23,8 +23,8 @@ public class DatabaseConnector {
 		in = new Scanner(new File(path));
 
 		prop.setProperty("database", in.nextLine());
-		prop.setProperty("dbuser", in.nextLine());
-		prop.setProperty("dbpassword", in.nextLine());
+		prop.setProperty("user", in.nextLine());
+		prop.setProperty("password", in.nextLine());
 
 		try{
 			in.close();
@@ -44,29 +44,18 @@ public class DatabaseConnector {
 
 		// korzystanie z config.properties w celu polaczenia z baza
 		Properties prop = new Properties();
-		InputStream input = null;
-		String database;
-		String url = null;
-		String username = null;
-		String password = null;
+		InputStream input = new FileInputStream("config.properties");
 
-		input = new FileInputStream("config.properties");
-
-		// load a properties file
 		prop.load(input);
-
-		// get the property value
-		database = prop.getProperty("database");
-		url = "jdbc:mysql://localhost:3306/" + database;
-		username = prop.getProperty("dbuser");
-		password = prop.getProperty("dbpassword");
+		String database = prop.getProperty("database");
+		String url = "jdbc:mysql://localhost:3306/" + database;
 
 		loadDriver();
 		
 		System.out.println("Connecting database...");
 		Connection connection = null;
-		try{
-			connection = DriverManager.getConnection(url, username, password);
+		try{		
+			connection = DriverManager.getConnection(url, prop);
 			System.out.println("Database connected!");
 		} catch (SQLException e) {
 			System.out.println("Cannot connect the database!");

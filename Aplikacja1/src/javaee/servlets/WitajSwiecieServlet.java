@@ -35,7 +35,7 @@ public class WitajSwiecieServlet extends HttpServlet {
 		res.setContentType("text/plain; charset=utf-8");
 		
 		ServletContext context = getServletContext();		
-		DatabaseConnector dc = new DatabaseConnector();		
+		DatabaseConnector dc = new DatabaseConnector();
 
 		String query = "select idAnimals, Name, color from animals";
 		try {
