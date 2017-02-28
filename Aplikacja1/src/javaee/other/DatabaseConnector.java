@@ -16,19 +16,18 @@ import java.util.Scanner;
 public class DatabaseConnector {
 
 	public String connect(String path) {
-		
-		//wyczytanie z pliku + zapisanie konfiguracji
+
+		// wyczytanie z pliku + zapisanie konfiguracji
 		Properties prop = new Properties();
 		Scanner in = null;
-		try{
-			
-			in = new Scanner(new File(path));  
-	      
+		try {
+
+			in = new Scanner(new File(path));
+
 			prop.setProperty("database", in.nextLine());
 			prop.setProperty("dbuser", in.nextLine());
 			prop.setProperty("dbpassword", in.nextLine());
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			if (in != null) {
@@ -39,8 +38,8 @@ public class DatabaseConnector {
 				}
 			}
 		}
-		
-		OutputStream output = null;		
+
+		OutputStream output = null;
 		try {
 			output = new FileOutputStream("config.properties");
 			prop.store(output, null);
@@ -54,16 +53,16 @@ public class DatabaseConnector {
 					e.printStackTrace();
 				}
 			}
-		}		
-		
-		//korzystanie z config.properties w celu polaczenia z baza
+		}
+
+		// korzystanie z config.properties w celu polaczenia z baza
 		prop = new Properties();
 		InputStream input = null;
 		String database;
 		String url = null;
 		String username = null;
 		String password = null;
-		
+
 		try {
 
 			input = new FileInputStream("config.properties");
@@ -73,7 +72,7 @@ public class DatabaseConnector {
 
 			// get the property value
 			database = prop.getProperty("database");
-			url = "jdbc:mysql://localhost:3306/"+database;
+			url = "jdbc:mysql://localhost:3306/" + database;
 			username = prop.getProperty("dbuser");
 			password = prop.getProperty("dbpassword");
 
@@ -91,20 +90,20 @@ public class DatabaseConnector {
 
 		System.out.println("Loading driver...");
 		try {
-		    Class.forName("com.mysql.jdbc.Driver");
-		    System.out.println("Driver loaded!");
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Driver loaded!");
 		} catch (ClassNotFoundException e) {
-		    throw new IllegalStateException("Cannot find the driver in the classpath!", e);
-		}
-		
-		System.out.println("Connecting database...");
-		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-		    System.out.println("Database connected!");
-		} catch (SQLException e) {
-		    System.out.println("Cannot connect the database!");
-		    throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 
-	return url+"?user="+username+"&password="+password;
-	}	
+		System.out.println("Connecting database...");
+		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Database connected!");
+		} catch (SQLException e) {
+			System.out.println("Cannot connect the database!");
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+
+		return url + "?user=" + username + "&password=" + password;
+	}
 }
